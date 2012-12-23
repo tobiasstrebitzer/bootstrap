@@ -103,6 +103,8 @@
         , actualHeight
         , placement
         , tp
+        , xOffset
+        , yOffset
 
       if (this.hasContent() && this.enabled) {
         $tip = this.tip()
@@ -116,7 +118,9 @@
           this.options.placement.call(this, $tip[0], this.$element[0]) :
           this.options.placement
 
-        inside = /in/.test(placement)
+        // custom positioning
+        xOffset = this.$element.data("xoffset") ? this.$element.data("xoffset") : 0;
+        yOffset = this.$element.data("yoffset") ? this.$element.data("yoffset") : 0;
 
         $tip
           .detach()
@@ -130,16 +134,16 @@
 
         switch (inside ? placement.split(' ')[1] : placement) {
           case 'bottom':
-            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
+            tp = {top: pos.top + pos.height + yOffset, left: pos.left + pos.width / 2 - actualWidth / 2  + xOffset}
             break
           case 'top':
-            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
+            tp = {top: pos.top - actualHeight + yOffset, left: pos.left + pos.width / 2 - actualWidth / 2  + xOffset}
             break
           case 'left':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2 + yOffset, left: pos.left - actualWidth  + xOffset}
             break
           case 'right':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
+            tp = {top: pos.top + pos.height / 2 - actualHeight / 2 + yOffset, left: pos.left + pos.width  + xOffset}
             break
         }
 
